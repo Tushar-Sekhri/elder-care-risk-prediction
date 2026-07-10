@@ -64,12 +64,43 @@ An initial model achieved 100% accuracy — which was a red flag. The cause was 
 
 ## 📈 Results
 
-| Metric | Score |
-|---|---|
-| Accuracy | 70% |
-| ROC AUC | 0.696 |
-| F1 (No Care Needed) | 0.79 |
-| F1 (Care Needed) | 0.47 |
+### Model Evolution
+
+| Version | Features | Accuracy | ROC AUC | F1 (Care Needed) |
+|---|---|---|---|---|
+| V1 Random Forest (baseline) | 14 features | 70% | 0.696 | 0.47 |
+| V2 Logistic Regression | 14 features | 73% | 0.750 | 0.49 |
+| V3 + SMOTE balancing | 14 features | 69% | 0.750 | 0.58 |
+| V4 + Hyperparameter tuning | 14 features | 69% | 0.750 | 0.59 |
+| V5 + Extra LASI features | 21 features | 70% | 0.766 | 0.60 |
+| **V6 + Vision & incontinence** | **23 features** | **70%** | **0.769** | **0.60** |
+
+### Final Model: Logistic Regression (V6)
+- **Accuracy:** 70%
+- **ROC AUC:** 0.769
+- **F1 (Care Needed):** 0.60
+- **F1 (No Care Needed):** 0.76
+
+> ℹ️ SMOTE (Synthetic Minority Oversampling Technique) was applied to address class imbalance (67/33 split). This intentionally trades overall accuracy for better recall on the minority class (Care Needed) — the more clinically important outcome in a healthcare context.
+
+### Confusion Matrix
+![Confusion Matrix](outputs/confusion_matrix.png)
+
+### Feature Importance
+![Feature Importance](outputs/feature_importance.png)
+
+### SHAP Explainability
+![SHAP Summary](outputs/shap_summary.png)
+
+### Model Comparison
+![Model Comparison](outputs/model_comparison.png)
+
+### Key Findings
+- **Age** is the strongest single predictor (SHAP importance ~0.50)
+- **Self-rated health** is a stronger predictor than any specific diagnosed disease
+- **Living arrangements** matter significantly — elderly living alone are at higher risk
+- A simpler linear model (Logistic Regression) outperformed Random Forest on this dataset
+- Adding biomarker data (LASI DBS dataset) could push performance further
 
 ### Confusion Matrix
 ![Confusion Matrix](outputs/confusion_matrix.png)
