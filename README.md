@@ -66,15 +66,28 @@ An initial model achieved 100% accuracy — which was a red flag. The cause was 
 
 ### Model Evolution
 
-| Version | Features | Accuracy | ROC AUC | F1 (Care Needed) |
+| Version | Model | Features | ROC AUC | F1 (Care Needed) |
 |---|---|---|---|---|
-| V1 Random Forest (baseline) | 14 features | 70% | 0.696 | 0.47 |
-| V2 Logistic Regression | 14 features | 73% | 0.750 | 0.49 |
-| V3 + SMOTE balancing | 14 features | 69% | 0.750 | 0.58 |
-| V4 + Hyperparameter tuning | 14 features | 69% | 0.750 | 0.59 |
-| V5 + Extra LASI features | 21 features | 70% | 0.766 | 0.60 |
-| **V6 + Vision & incontinence** | **23 features** | **70%** | **0.769** | **0.60** |
+| V1 | Random Forest (baseline) | 14 survey features | 0.696 | 0.47 |
+| V2 | Logistic Regression | 14 survey features | 0.750 | 0.49 |
+| V3 | LR + SMOTE | 14 survey features | 0.750 | 0.58 |
+| V4 | LR + SMOTE + Tuning | 14 survey features | 0.750 | 0.59 |
+| V5 | LR + Extra LASI features | 21 survey features | 0.766 | 0.60 |
+| V6 | LR + Vision & Incontinence | 23 survey features | 0.769 | 0.60 |
+| V7 | LightGBM + Biomarkers | 39 survey + biomarker | 0.773 | 0.60 |
+| **V8** | **LightGBM + Cognitive** | **41 features** | **0.775** | **0.60** |
 
+### Key Findings
+- Improved ROC AUC from **0.696 → 0.775** through systematic feature engineering and model selection
+- A simpler linear model (Logistic Regression) outperformed Random Forest on survey-only features — suggesting care dependency has largely linear relationships with health indicators
+- Adding objective biomarker measurements (blood pressure, grip strength, walk time) improved performance over self-reported features alone
+- **Age** remains the strongest single predictor across all models
+- **Living arrangements** (living alone vs with family) is the second most important social predictor
+- SMOTE balancing significantly improved recall for the minority class (Care Needed: F1 0.47 → 0.60)
+
+### Notebooks
+- `notebooks/eda.ipynb` — Full EDA, data cleaning, baseline models (V1-V6)
+- `notebooks/model_v2.ipynb` — Advanced models with biomarker and cognitive data (V7-V8)
 ### Final Model: Logistic Regression (V6)
 - **Accuracy:** 70%
 - **ROC AUC:** 0.769
